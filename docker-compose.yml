@@ -62,7 +62,7 @@ services:
             - rspamd
 
     dovecot-billionmail:
-      image: billionmail/dovecot:1.5
+      image: billionmail/dovecot:1.6
       hostname: dovecot
       depends_on:
         - pgsql-billionmail
@@ -173,7 +173,7 @@ services:
             - webmail
 
     core-billionmail:
-      image: billionmail/core:4.6.1
+      image: billionmail/core:4.6.4
       hostname: core-manage
       depends_on:
         - pgsql-billionmail
