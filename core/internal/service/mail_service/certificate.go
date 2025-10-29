@@ -472,10 +472,10 @@ func (c *Certificate) GetSSLStatus(domain string) (bool, error) {
 func (c *Certificate) GetSSLInfo(domain string) (certInfo v1.CertInfo, err error) {
 	// First try to get certificate from database (acme managed certificates)
 
-	certInfo, err = c.getSSLInfoFromDatabase(domain)
-	if err == nil && certInfo.Endtime > 0 {
-		return // Successfully got certificate info from database
-	}
+	//certInfo, err = c.getSSLInfoFromDatabase(domain)
+	//if err == nil && certInfo.Endtime > 0 {
+	//	return  certInfo, err
+	//}
 
 	// Fallback to file system (legacy certificates)
 	return c.getSSLInfoFromFiles(domain)
@@ -551,7 +551,7 @@ func (c *Certificate) getSSLInfoFromFiles(domain string) (certInfo v1.CertInfo, 
 		}
 	}
 
-	return
+	return certInfo, err
 }
 
 // checkCertificateFiles verifies certificate files exist

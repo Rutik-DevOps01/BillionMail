@@ -202,7 +202,6 @@ func Get(ctx context.Context, keyword string, page, pageSize int) ([]v1.Domain, 
 		defaultDomain = val.String()
 	}
 	MultiIPDomainConfigs, err := multi_ip_domain.MultiIPDomainServiceInstance.GetConfigs(ctx)
-	g.Log().Debug(ctx, "多域名专属ip  Multi IP Domain Configs:", MultiIPDomainConfigs)
 
 	// 创建域名到专属IP配置的映射
 	multiIPMap := make(map[string][]v1.MultiIPDomain)
@@ -252,12 +251,7 @@ func Get(ctx context.Context, keyword string, page, pageSize int) ([]v1.Domain, 
 		wg.Add(1)
 		go func(i int, domain v1.Domain) {
 			defer wg.Done()
-			domains[i].CertInfo, err = crt.GetSSLInfo(domain.Domain)
-
-			if err != nil {
-				err = nil
-				domains[i].CertInfo, _ = crt.GetSSLInfo(public.FormatMX(domain.Domain))
-			}
+			domains[i].CertInfo, err = crt.GetSSLInfo(public.FormatMX(domain.Domain))
 
 		}(i, domain)
 
