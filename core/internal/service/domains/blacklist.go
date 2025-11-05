@@ -338,3 +338,34 @@ func ReverseIP(ip string) string {
 	}
 	return strings.Join(parts, ".")
 }
+
+// GetBlacklistResult
+func GetBlacklistResult(domain string) *model.BlacklistCheckResult {
+	path := public.AbsPath("../core/data/blcheck_count.json")
+	if !gfile.Exists(path) {
+		return nil
+	}
+
+	content := gfile.GetContents(path)
+	if content == "" {
+		return nil
+	}
+
+	data := make(map[string]*model.BlacklistCheckResult)
+	err := json.Unmarshal([]byte(content), &data)
+	if err != nil {
+		return nil
+	}
+
+	if result, ok := data[domain]; ok {
+		return result
+	}
+
+	return nil
+}
+
+// GetBlacklistLogPath
+func GetBlacklistLogPath(domain string) string {
+	logPath := fmt.Sprintf("%s/%s_blcheck.txt", DOMAIN_SCAN_LOG_PATH, domain)
+	return logPath
+}

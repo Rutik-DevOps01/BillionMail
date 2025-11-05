@@ -5,6 +5,7 @@ import (
 	v1 "billionmail-core/api/domains/v1"
 	mail_v1 "billionmail-core/api/mail_boxes/v1"
 	"billionmail-core/internal/consts"
+	"billionmail-core/internal/model"
 	docker "billionmail-core/internal/service/dockerapi"
 	"billionmail-core/internal/service/mail_boxes"
 	"billionmail-core/internal/service/mail_service"
@@ -13,19 +14,33 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"github.com/gogf/gf/util/grand"
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/text/gregex"
 	"os"
 	"path/filepath"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/gogf/gf/util/grand"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/text/gregex"
 )
 
 var (
 	mutex sync.Mutex
 )
+
+// convertBlacklistDetails 将 model.BlacklistDetail 转换为 v1.BlacklistDetail
+func convertBlacklistDetails(details []model.BlacklistDetail) []v1.BlacklistDetail {
+	result := make([]v1.BlacklistDetail, len(details))
+	for i, detail := range details {
+		result[i] = v1.BlacklistDetail{
+			Blacklist: detail.Blacklist,
+			Response:  detail.Response,
+			Time:      detail.Time,
+		}
+	}
+	return result
+}
 
 func setCatchall(ctx context.Context, domainName, catchall string) error {
 	address := fmt.Sprintf("@%s", domainName)
@@ -285,6 +300,39 @@ func Get(ctx context.Context, keyword string, page, pageSize int) ([]v1.Domain, 
 				}
 			}
 
+		}(i, domain)
+
+		wg.Add(1)
+		go func(i int, domain v1.Domain) {
+			defer wg.Done()
+
+			blacklistResult := GetBlacklistResult(domain.ARecord)
+			if blacklistResult != nil {
+				domains[i].BlackCheckResult = &v1.BlacklistCheckResult{
+					Time:        blacklistResult.Time,
+					Results:     blacklistResult.Domain,
+					IP:          blacklistResult.IP,
+					Tested:      blacklistResult.Tested,
+					Passed:      blacklistResult.Passed,
+					Invalid:     blacklistResult.Invalid,
+					Blacklisted: blacklistResult.Blacklisted,
+					BlackList:   convertBlacklistDetails(blacklistResult.BlackList),
+				}
+			} else {
+
+				domains[i].BlackCheckResult = &v1.BlacklistCheckResult{
+					Time:        0,
+					Results:     "",
+					IP:          "",
+					Tested:      0,
+					Passed:      0,
+					Invalid:     0,
+					Blacklisted: 0,
+					BlackList:   []v1.BlacklistDetail{},
+				}
+			}
+
+			domains[i].BlackCheckLog = GetBlacklistLogPath(domain.ARecord)
 		}(i, domain)
 	}
 
