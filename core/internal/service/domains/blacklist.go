@@ -267,25 +267,20 @@ func IsDomainBlacklisted(ctx context.Context, ip, domain string, dns_servers []s
 		date := gtime.Now().Format("Y-m-d H:i:s")
 		query := fmt.Sprintf("%s.%s", reversedIP, bl)
 
-		//g.Log().Infof(ctx, "检查黑名单: %s for domain: %s", bl, domain)
-		//g.Log().Infof(ctx, "检查黑名单query: %s", query)
-
 		resp, err := ResolveA(query, dns_servers)
-
-		//g.Log().Infof(ctx, "黑名单检查结果: %s, err: %v", resp, err)
 
 		if err != nil {
 			checkLog = fmt.Sprintf("%s: %s -----------------------------  √\n", date, bl)
 			_ = gfile.PutContentsAppend(domainCheckLog, checkLog)
 			result.Passed++
-			//g.Log().Infof(ctx, "黑名单检查通过√: %s ", resp)
+
 		} else if strings.HasPrefix(resp, "127.") {
 
 			if _, ok := SKIP_IP_RESPONSES[resp]; ok {
 				result.Passed++
 				checkLog = fmt.Sprintf("%s: %s -----------------------------  √ (%s)\n", date, bl, resp)
 				_ = gfile.PutContentsAppend(domainCheckLog, checkLog)
-				//g.Log().Infof(ctx, "黑名单检查通过√ (跳过): %s ", resp)
+
 			} else if strings.HasPrefix(resp, "127.0.0.") {
 				result.Blacklisted++
 				checkLog = fmt.Sprintf("%s: %s ----------------------------- x   blacklisted (%s)\n", date, bl, resp)
@@ -296,12 +291,12 @@ func IsDomainBlacklisted(ctx context.Context, ip, domain string, dns_servers []s
 					Time:      times,
 					Response:  resp,
 				})
-				//g.Log().Warningf(ctx, "黑名单检查未通过x : %s ", resp)
+
 			} else {
 				result.Passed++
 				checkLog = fmt.Sprintf("%s: %s ----------------------------- √ (%s)\n", date, bl, resp)
 				_ = gfile.PutContentsAppend(domainCheckLog, checkLog)
-				//g.Log().Infof(ctx, "黑名单检查通过!! √ : %s ", resp)
+
 			}
 		} else {
 			checkLog = fmt.Sprintf("%s: %s ----------------------------- Invalid\n", date, bl)

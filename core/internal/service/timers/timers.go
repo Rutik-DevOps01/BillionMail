@@ -184,7 +184,7 @@ func Start(ctx context.Context) (err error) {
 	})
 
 	// Check the domain name blacklist
-	gtimer.Add(30*time.Minute, func() {
+	gtimer.Add(24*time.Hour, func() {
 		domains.CheckDomainsBlacklist(ctx)
 	})
 
