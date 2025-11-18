@@ -248,6 +248,10 @@ const logicOptions = [
 		label: 'AND',
 		value: 'AND',
 	},
+	{
+		label: 'NOT',
+		value: 'NOT',
+	},
 ]
 
 const rules: FormRules = {
