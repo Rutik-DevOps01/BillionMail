@@ -88,7 +88,7 @@ type EmailTask struct {
 	GroupId         int    `json:"group_id"        dc:"Group ID"`
 	TagIdsRaw       string `json:"-"               dc:"Tag IDs (JSON string - internal use)" orm:"tag_ids"`
 	TagIds          []int  `json:"tag_ids"         dc:"Tag IDs (parsed array)"`
-	TagLogic        string `json:"tag_logic"       dc:"Tag Logic (AND/OR)"`
+	TagLogic        string `json:"tag_logic"       dc:"Tag Logic (AND/OR/NOT)"`
 	UseTagFilter    int    `json:"use_tag_filter"  dc:"Use Tag Filter (0: no, 1: yes)"`
 }
 
