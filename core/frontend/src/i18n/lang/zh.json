@@ -310,9 +310,9 @@
 				"template": "邮件模板",
 				"saveOutbox": "保存到发件箱",
 				"ipWarmup": "关联IP预热系统",
-			"ipWarmupTip": "开启后将会限制发件速率",
-			"trackClick": "跟踪点击",
-			"trackOpen": "跟踪打开",
+				"ipWarmupTip": "开启后将会限制发件速率",
+				"trackClick": "跟踪点击",
+				"trackOpen": "跟踪打开",
 				"unsubscribeLink": "退订链接",
 				"threads": "线程数",
 				"threadsAuto": "自动",
@@ -1524,6 +1524,14 @@
 			"ipWhitelist": "IP白名单",
 			"apiNamePlaceholder": "请输入API名称",
 			"ipWhitelistPlaceholder": "多个IP用逗号分隔，为空则不限制",
+			"advancedFeatures": "高级功能",
+			"group": {
+				"label": "收件人分组",
+				"tips": {
+					"choose": "选择分组：所有通过此 API 添加的新联系人，都会被自动放进您选定的组里。",
+					"autoCreate": "不选择分组：系统会自动为这个 API 创建一个全新的、独立的联系人组，用于存放所有新联系人。"
+				}
+			},
 			"validation": {
 				"apiNameRequired": "请输入API名称",
 				"addresserRequired": "请选择发送者",

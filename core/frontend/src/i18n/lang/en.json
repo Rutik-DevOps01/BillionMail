@@ -1101,8 +1101,8 @@
 				"applyingCert": "Applying certificate, please wait...",
 				"settingDefault": "Setting default domain, please wait...",
 				"settingBrandInfo": "Setting domain brand info, please wait...",
-			"testingConnection": "Testing connection, please wait...",
-			"detecting": "Detecting, please wait..."
+				"testingConnection": "Testing connection, please wait...",
+				"detecting": "Detecting, please wait..."
 			}
 		}
 	},
@@ -1539,6 +1539,7 @@
 			"ipWhitelist": "IP Whitelist",
 			"apiNamePlaceholder": "Please enter API name",
 			"ipWhitelistPlaceholder": "Multiple IPs separated by commas, empty means no restriction",
+			"advancedFeatures": "Advanced Features",
 			"validation": {
 				"apiNameRequired": "Please enter API name",
 				"addresserRequired": "Please select sender",
@@ -1547,6 +1548,13 @@
 			"title": {
 				"edit": "Edit API",
 				"add": "Add API"
+			},
+			"group": {
+				"label": "Recipient Groups",
+				"tips": {
+					"choose": "Selecting a group: All new contacts added via this API will be automatically added to the selected group.",
+					"autoCreate": "No group selected: The system will auto-create a dedicated group for this API to store all new contacts."
+				}
 			}
 		},
 		"loading": {
