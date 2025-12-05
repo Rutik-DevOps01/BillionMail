@@ -310,6 +310,10 @@
 				"viewCase": "ケースを見る",
 				"tags": "タグ",
 				"tagLogic": "タグロジック",
+				"ipWarmup": "IPウォームアップシステムを関連付け",
+				"ipWarmupTip": "有効にすると送信速度が制限されます",
+				"trackClick": "クリック追跡",
+				"trackOpen": "開封追跡",
 				"preview": {
 					"empty": "プレビューするメールテンプレートを選択してください"
 				},

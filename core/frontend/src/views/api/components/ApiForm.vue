@@ -2,27 +2,18 @@
 	<modal :title="title" width="520">
 		<bt-form ref="formRef" :model="form" :rules="rules" class="pt-12px">
 			<n-form-item :label="$t('api.form.apiName')" path="api_name">
-				<n-input
-					v-model:value="form.api_name"
-					:placeholder="$t('api.form.apiNamePlaceholder')"></n-input>
+				<n-input v-model:value="form.api_name" :placeholder="$t('api.form.apiNamePlaceholder')"></n-input>
 			</n-form-item>
 			<n-form-item :label="$t('market.task.edit.from')" path="addresser">
-				<from-select
-					v-model:value="form.addresser"
-					v-model:domain="form.domain"
-					v-model:name="form.full_name">
+				<from-select v-model:value="form.addresser" v-model:domain="form.domain" v-model:name="form.full_name">
 				</from-select>
 			</n-form-item>
 			<n-form-item :label="$t('market.task.edit.displayName')" path="full_name">
-				<n-input
-					v-model:value="form.full_name"
-					:placeholder="$t('market.task.edit.displayNamePlaceholder')">
+				<n-input v-model:value="form.full_name" :placeholder="$t('market.task.edit.displayNamePlaceholder')">
 				</n-input>
 			</n-form-item>
 			<n-form-item :label="$t('market.task.edit.subject')" path="subject">
-				<n-input
-					v-model:value="form.subject"
-					:placeholder="$t('market.task.edit.subjectPlaceholder')">
+				<n-input v-model:value="form.subject" :placeholder="$t('market.task.edit.subjectPlaceholder')">
 				</n-input>
 			</n-form-item>
 			<n-form-item :label="$t('market.task.edit.template')" path="template_id">
@@ -33,25 +24,29 @@
 				<n-button text type="primary" class="ml-12px" @click="handleEditTemplate">
 					{{ $t('common.actions.edit') }}
 				</n-button>
-				<n-button
-					text
-					type="primary"
-					class="ml-12px"
-					@click="handlePreviewTemplate(form.template_content)">
+				<n-button text type="primary" class="ml-12px" @click="handlePreviewTemplate(form.template_content)">
 					{{ $t('common.actions.preview') }}
 				</n-button>
 			</n-form-item>
-			<n-form-item :label="$t('market.task.edit.unsubscribeLink')">
-				<n-switch v-model:value="form.unsubscribe" :checked-value="1" :unchecked-value="0">
-				</n-switch>
-			</n-form-item>
-			<n-form-item :label="$t('api.form.status')">
-				<n-switch v-model:value="form.active" :checked-value="1" :unchecked-value="0"></n-switch>
-			</n-form-item>
+			<n-grid :cols="24" :x-gap="16">
+				<n-form-item-gi :span="12" :label="$t('api.form.status')">
+					<n-switch v-model:value="form.active" :checked-value="1" :unchecked-value="0"></n-switch>
+				</n-form-item-gi>
+				<n-form-item-gi :span="12" :label="$t('market.task.edit.unsubscribeLink')">
+					<n-switch v-model:value="form.unsubscribe" :checked-value="1" :unchecked-value="0">
+					</n-switch>
+				</n-form-item-gi>
+				<n-form-item-gi :span="12" :label="t('market.task.edit.trackClick')" path="track_click">
+					<n-switch v-model:value="form.track_click" :checked-value="1" :unchecked-value="0">
+					</n-switch>
+				</n-form-item-gi>
+				<n-form-item-gi :span="12" :label="t('market.task.edit.trackOpen')" path="track_open">
+					<n-switch v-model:value="form.track_open" :checked-value="1" :unchecked-value="0">
+					</n-switch>
+				</n-form-item-gi>
+			</n-grid>
 			<n-form-item :label="$t('api.form.ipWhitelist')">
-				<n-input
-					v-model:value="form.ip_whitelist"
-					:placeholder="$t('api.form.ipWhitelistPlaceholder')">
+				<n-input v-model:value="form.ip_whitelist" :placeholder="$t('api.form.ipWhitelistPlaceholder')">
 				</n-input>
 			</n-form-item>
 
@@ -97,6 +92,8 @@ const form = reactive({
 	unsubscribe: 1,
 	active: 1,
 	ip_whitelist: '',
+	track_click: 1,
+	track_open: 1,
 })
 
 const rules: FormRules = {
@@ -169,6 +166,9 @@ const resetForm = () => {
 	form.full_name = ''
 	form.unsubscribe = 1
 	form.active = 1
+	form.ip_whitelist = ''
+	form.track_click = 1
+	form.track_open = 1
 }
 
 const getParams = () => {
@@ -181,6 +181,8 @@ const getParams = () => {
 		unsubscribe: form.unsubscribe,
 		active: form.active,
 		ip_whitelist: form.ip_whitelist.split(','),
+		track_click: form.track_click,
+		track_open: form.track_open,
 	}
 }
 
@@ -201,6 +203,8 @@ const [Modal, modalApi] = useModal({
 				form.unsubscribe = row.unsubscribe
 				form.active = row.active
 				form.ip_whitelist = row.ip_whitelist.join(',')
+				form.track_click = row.track_click
+				form.track_open = row.track_open
 			}
 		} else {
 			resetForm()
