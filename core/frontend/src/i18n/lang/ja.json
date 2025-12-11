@@ -845,6 +845,18 @@
 				"title": "ステップ4: PTR レコードを追加",
 				"description1": "（任意）PTR レコードは逆引きDNSに使用されます",
 				"description2": "IP プロバイダーに連絡して PTR レコードを作成してください"
+			},
+			"dkim": {
+				"formatLabel": "DKIM レコードフォーマット：",
+				"keySize": {
+					"option2048": "2048 ビット RSA キー",
+					"option1024": "1024 ビット RSA キー"
+				},
+				"tips": {
+					"line1": "DKIM は 2048 ビットおよび 1024 ビットの RSA キーに対応します。",
+					"line2": "より高い安全性のため、2048 ビットのキーを推奨します。",
+					"line3": "DNS プロバイダーの制約に応じて選択してください。"
+				}
 			}
 		},
 		"ssl": {
@@ -1356,6 +1368,12 @@
 						}
 					}
 				}
+			},
+			"retention": {
+				"title": "メール保持期間",
+				"currentDays": "{days}日",
+				"trashHint": "ゴミ箱メールの保持期間",
+				"day": "日"
 			}
 		},
 		"api": {

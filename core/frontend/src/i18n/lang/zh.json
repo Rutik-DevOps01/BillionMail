@@ -922,6 +922,18 @@
 				"title": "步骤4：添加PTR记录",
 				"description1": "（可选）PTR记录用于反向 DNS 查找",
 				"description2": "联系您的IP提供商创建 PTR 记录"
+			},
+			"dkim": {
+				"formatLabel": "DKIM记录格式：",
+				"keySize": {
+					"option2048": "2048位RSA密钥",
+					"option1024": "1024位RSA密钥"
+				},
+				"tips": {
+					"line1": "DKIM记录支持2048位和1024位RSA密钥。",
+					"line2": "建议优先使用2048位密钥以获得更好的安全性。",
+					"line3": "可根据域名服务商的限制进行选择。"
+				}
 			}
 		},
 		"ssl": {
@@ -1411,9 +1423,9 @@
 				"title": "通知设置",
 				"blacklist": {
 					"title": "当IP/域名被列入黑名单时通知我",
-					"alarmSet": "警报设置",
+					"alarmSet": "告警设置",
 					"alarmSettings": {
-						"title": "警报设置",
+						"title": "告警设置",
 						"name": "名称",
 						"senderEmail": "发送人邮箱",
 						"smtpPassword": "SMTP密码",
@@ -1431,6 +1443,12 @@
 						}
 					}
 				}
+			},
+			"retention": {
+				"title": "邮件保留时间",
+				"currentDays": "{days}天",
+				"trashHint": "垃圾箱邮件保留时间",
+				"day": "天"
 			}
 		},
 		"api": {

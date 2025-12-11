@@ -88,6 +88,8 @@ export const useSettingsStore = defineStore('SettingsCommonStore', () => {
 		}
 	}
 
+	const retentionDays = ref(0)
+
 	// 获取设置信息
 	const getCommonConfig = async () => {
 		const res = await getSystemConfig()
@@ -98,6 +100,8 @@ export const useSettingsStore = defineStore('SettingsCommonStore', () => {
 			serverIp.value = res.server_ip
 			ipWhitelistEnable.value = res.ip_whitelist_enable
 			ipWhitelistList.value = res.ip_whitelist
+
+			retentionDays.value = res.retention_days
 
 			if (res.manage_ports) {
 				currentPort.value = `${res.manage_ports.https}`
@@ -157,6 +161,7 @@ export const useSettingsStore = defineStore('SettingsCommonStore', () => {
 		apiInfo.api_doc_url = ''
 		apiInfo.api_token = ''
 		apiInfo.swagger_url = ''
+		retentionDays.value = 0
 	}
 
 	return {
@@ -179,6 +184,7 @@ export const useSettingsStore = defineStore('SettingsCommonStore', () => {
 		currentProxy,
 		apiInfo,
 		blacklistConfig,
+		retentionDays,
 
 		// 方法
 		checkPasswordStrength,
