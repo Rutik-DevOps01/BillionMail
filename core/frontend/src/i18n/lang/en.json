@@ -931,6 +931,18 @@
 				"title": "Step 4: Add PTR Record",
 				"description1": "(Optional) PTR record is used for reverse DNS lookup",
 				"description2": "Contact your IP provider to create PTR record"
+			},
+			"dkim": {
+				"formatLabel": "DKIM Record Format:",
+				"keySize": {
+					"option2048": "2048-bit RSA Key",
+					"option1024": "1024-bit RSA Key"
+				},
+				"tips": {
+					"line1": "DKIM supports 2048-bit and 1024-bit RSA keys.",
+					"line2": "Prefer 2048-bit keys for stronger security.",
+					"line3": "Choose based on your DNS provider capability."
+				}
 			}
 		},
 		"ssl": {
@@ -1446,6 +1458,12 @@
 						}
 					}
 				}
+			},
+			"retention": {
+				"title": "Mail retention time",
+				"currentDays": "{days} day(s)",
+				"trashHint": "Retention time for Trash emails",
+				"day": "Days"
 			}
 		},
 		"api": {
