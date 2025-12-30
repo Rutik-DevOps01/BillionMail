@@ -28,6 +28,11 @@ func PHPFpmHandlerFactory(config PHPFpmHandlerConfig) ghttp.HandlerFunc {
 		// Get the requested file path
 		filePath := "/" + r.Get("any").String()
 
+		if strings.Contains(filePath, "..") {
+			r.Response.WriteHeader(404)
+			return
+		}
+
 		// Check if the file path is empty
 		if filePath == "/" {
 			filePath = "/index.php"
@@ -35,6 +40,29 @@ func PHPFpmHandlerFactory(config PHPFpmHandlerConfig) ghttp.HandlerFunc {
 
 		// Serve static files directly
 		if !strings.HasSuffix(filePath, ".php") {
+			// 首先获取到文件的绝对路径
+			absFilePath, err := filepath.Abs(config.Static)
+
+			g.Log().Debug(context.Background(), "absFilePath:", absFilePath)
+
+			if err != nil {
+				g.Log().Error(context.Background(), "Failed to get absolute path:", err)
+				r.Response.WriteStatus(500)
+				return
+			}
+
+			// 获取拼接后的绝对路径
+			absPath := filepath.Join(absFilePath, filePath)
+
+			g.Log().Debug(context.Background(), "after absPath:", absPath)
+
+			// 防止目录遍历攻击
+			if !strings.HasPrefix(absPath, absFilePath) {
+				g.Log().Error(context.Background(), "Directory traversal attempt:", absPath)
+				r.Response.WriteStatus(403)
+				return
+			}
+
 			r.Response.ServeFile(filepath.Join(config.Static, filePath))
 			return
 		}
