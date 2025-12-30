@@ -28,6 +28,7 @@ func PHPFpmHandlerFactory(config PHPFpmHandlerConfig) ghttp.HandlerFunc {
 		// Get the requested file path
 		filePath := "/" + r.Get("any").String()
 
+		// If the file path contains "..", return 404 to prevent directory traversal
 		if strings.Contains(filePath, "..") {
 			r.Response.WriteHeader(404)
 			return
@@ -40,7 +41,7 @@ func PHPFpmHandlerFactory(config PHPFpmHandlerConfig) ghttp.HandlerFunc {
 
 		// Serve static files directly
 		if !strings.HasSuffix(filePath, ".php") {
-			// 首先获取到文件的绝对路径
+			// First, get the absolute path of the static directory
 			absFilePath, err := filepath.Abs(config.Static)
 
 			g.Log().Debug(context.Background(), "absFilePath:", absFilePath)
@@ -51,12 +52,12 @@ func PHPFpmHandlerFactory(config PHPFpmHandlerConfig) ghttp.HandlerFunc {
 				return
 			}
 
-			// 获取拼接后的绝对路径
+			// Second, get the absolute path of the requested file
 			absPath := filepath.Join(absFilePath, filePath)
 
 			g.Log().Debug(context.Background(), "after absPath:", absPath)
 
-			// 防止目录遍历攻击
+			// Prevent directory traversal attacks
 			if !strings.HasPrefix(absPath, absFilePath) {
 				g.Log().Error(context.Background(), "Directory traversal attempt:", absPath)
 				r.Response.WriteStatus(403)
