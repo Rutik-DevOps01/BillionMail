@@ -23,16 +23,17 @@ services:
   redis-billionmail:
     image: redis:7.4.2-alpine
     hostname: redis
-    entrypoint: ["/bin/sh","/redis-conf.sh"]
+    command: >
+      redis-server
+      --requirepass ${REDISPASS}
+      --appendonly yes
     volumes:
       - ./redis-data:/data
-      - ./conf/redis/redis-conf.sh:/redis-conf.sh
     restart: always
     ports:
       - "${REDIS_PORT:-127.0.0.1:26379}:6379"
     environment:
       - TZ=${TZ}
-      - REDISPASS=${REDISPASS}
     sysctls:
       - net.core.somaxconn=4096
     networks:
@@ -176,6 +177,7 @@ services:
     hostname: core-manage
     depends_on:
       - pgsql-billionmail
+      - redis-billionmail
     volumes:
       - ./ssl:/etc/ssl/mail
       - ./ssl-self-signed:/etc/ssl/ssl-self-signed
