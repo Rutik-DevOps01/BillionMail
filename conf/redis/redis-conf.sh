@@ -1,9 +1,11 @@
 #!/bin/sh
+set -e
 
-# Generate redis.conf for Redis
-cat <<EOF > /redis.conf
-requirepass $REDISPASS
+cat <<EOF > /etc/redis.conf
+bind 0.0.0.0
+protected-mode yes
+port 6379
+requirepass ${REDISPASS}
 EOF
 
-# Start Redis
-exec redis-server /redis.conf
+exec redis-server /etc/redis.conf
